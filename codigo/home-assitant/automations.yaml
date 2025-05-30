@@ -1,0 +1,19 @@
+- alias: Enviar estado de día o noche
+  trigger:
+    - platform: state
+      entity_id: sun.sun
+    - platform: time_pattern
+      minutes: "/5"
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "casa/luz/dia_noche"
+        payload: >
+          {% if is_state('sun.sun', 'above_horizon') %}
+            es de dia
+          {% elif is_state('sun.sun', 'below_horizon') %}
+            es de noche
+          {% else %}
+            desconocido
+          {% endif %}
+        retain: true

@@ -1,0 +1,85 @@
+light:
+  - name: "LED1"
+    state_topic: "home/led_1/set"
+    command_topic: "home/led_1/set"
+    qos: 0
+    schema: json
+    brightness: true
+    supported_color_modes: ["rgb"]
+
+  - name: "LED2"
+    state_topic: "home/led_2/set"
+    command_topic: "home/led_2/set"
+    qos: 0
+    schema: json
+    brightness: true
+    supported_color_modes: ["rgb"]
+
+  - name: "LED9"
+    state_topic: "home/led_9/set"
+    command_topic: "home/led_9/set"
+    qos: 0
+    schema: json
+    brightness: true
+    supported_color_modes: ["rgb"]
+
+sensor:
+  - name: "LuzAmbiente"
+    state_topic: "casa/luz/lux"
+    unit_of_measurement: "lx"
+    value_template: "{{ value | round(2) }}"
+    device_class: illuminance
+
+  - name: "DistanciaUltrasonidos"
+    state_topic: "home/ultrasonic/distance"
+    unit_of_measurement: "cm"
+    value_template: "{{ value.split('')[0] }}"
+
+binary_sensor:
+  - name: "CercaníaUltrasonidos"
+    state_topic: "home/ultrasonic/proximity"
+    payload_on: "true"
+    payload_off: "false"
+    device_class: presence
+
+  - name: "Nivel de Luz Ambiente"
+    state_topic: "home/ambient/light"
+    payload_on: "true"
+    payload_off: "false"
+    device_class: light
+
+  - name: "Sensor de Movimiento"
+    state_topic: "home/motion_sensor"
+    device_class: motion
+    payload_on: "1"
+    payload_off: "0"
+
+number:
+  - name: "Velocidad Caja"
+    state_topic: "home/motor/speed"
+    command_topic: "home/motor/speed/set"
+    min: 0
+    max: 100
+    step: 1
+    unit_of_measurement: "%"
+    mode: slider
+
+  - name: "Velocidad Motor"
+    state_topic: "home/motor2/speed"
+    command_topic: "home/motor2/speed/set"
+    min: 0
+    max: 100
+    step: 1
+    unit_of_measurement: "%"
+    mode: slider
+
+switch:
+  - name: "Caja Abrir"
+    command_topic: "home/caja/estado/set"
+    payload_on: "abrir"
+    payload_off: "cerrar"
+
+  - name: "Luz nocturna"
+    command_topic: "home/luz/nocturna"
+    payload_on: "encender"
+    payload_off: "apagar"
